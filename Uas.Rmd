@@ -120,5 +120,3 @@ plot_ly(data, x = ~Pendapatan_per_kapita, y = ~Angka_Harapan_Hidup, type = 'scat
     
   Kesimpulan
     Analisis ini menunjukkan bahwa faktor ekonomi seperti pendapatan per kapita berperan signifikan dalam menentukan angka harapan hidup. Selain itu, hubungan antara jumlah anak dan angka harapan hidup juga mencerminkan tantangan yang dihadapi oleh negara-negara tertentu. Melalui visualisasi ini, kita dapat memahami kompleksitas isu kesehatan global dan pentingnya kebijakan yang mendukung peningkatan kualitas hidup masyarakat.
-
-# Referensi
