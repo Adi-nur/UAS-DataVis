@@ -3,3 +3,122 @@ title: "Uas"
 output: html_document
 ---
 
+---
+title: "UAS Data Visualisasi"
+author: "Muhammad Adi Nur Kholifah - A3202300044"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: flatly
+    higlight: zenburn
+    toc: true
+    toc_float:
+      collapsed: true
+    df_print: paged
+bibliography: references.bib
+---
+
+```{=html}
+<style>
+body{
+text-align: justify}
+</style>
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tujuan Analisis
+
+Analisis data ini bertujuan untuk memahami hubungan antara berbagai faktor demografis dan ekonomi dengan angka harapan hidup di berbagai negara dari tahun 1800 hingga 2022. Dengan menggunakan dataset yang mencakup variabel seperti pendapatan per kapita, populasi, dan jumlah anak, analisis ini akan:
+
+Mengidentifikasi Tren: Melihat bagaimana angka harapan hidup telah berubah seiring waktu dan faktor-faktor apa yang mungkin mempengaruhi perubahan tersebut.
+
+Menganalisis Hubungan: Menilai hubungan antara pendapatan per kapita dan angka harapan hidup, serta faktor-faktor lain yang dapat berkontribusi pada kesehatan masyarakat.
+
+Membandingkan Negara: Menganalisis perbedaan dalam angka harapan hidup antar negara dan benua, serta mengidentifikasi pola atau anomali yang signifikan.
+
+Memberikan Wawasan Kebijakan: Hasil analisis ini dapat memberikan informasi berharga bagi pembuat kebijakan dalam merumuskan strategi untuk meningkatkan kesehatan masyarakat dan kesejahteraan di negara-negara dengan angka harapan hidup yang rendah.
+
+Melalui visualisasi data yang dihasilkan, analisis ini bertujuan untuk menyajikan informasi secara jelas dan informatif, sehingga memudahkan pemahaman tentang kompleksitas faktor-faktor yang mempengaruhi kesehatan global.
+
+```{r cars}
+summary(cars)
+```
+
+```{r}
+library(readr)
+Data_xlsx_Data <- read_csv("Data.xlsx - Data.csv")
+View(Data_xlsx_Data)
+```
+
+```{r}
+library(ggplot2)
+library(readxl)
+
+data <- read_csv("Data.xlsx - Data.csv")
+ggplot(data, aes(x = Angka_Harapan_Hidup)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Distribusi Angka Harapan Hidup", x = "Angka Harapan Hidup", y = "Frekuensi")
+
+```
+
+# Interpretasi
+
+  Interpretasi: Scatter plot ini menunjukkan hubungan antara pendapatan per kapita dan angka harapan hidup. Ada kecenderungan positif, di mana negara dengan pendapatan per kapita yang lebih tinggi cenderung memiliki angka harapan hidup yang lebih tinggi.
+
+```{r}
+library(reshape2)
+
+correlation_matrix <- cor(data[, c("Angka_Harapan_Hidup", "Pendapatan_per_kapita", "Populasi", "Jumlah_anak")])
+melted_correlation <- melt(correlation_matrix)
+
+ggplot(melted_correlation, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "red", high = "green", midpoint = 0) +
+  labs(title = "Heatmap Korelasi Variabel", x = "", y = "")
+
+```
+
+# Interpretasi
+
+  Interpretasi: Heatmap ini menunjukkan hubungan antar variabel dalam dataset. Warna hijau menunjukkan korelasi positif, sementara warna merah menunjukkan korelasi negatif. Misalnya, angka harapan hidup memiliki korelasi positif yang kuat dengan pendapatan per kapita.
+  
+```{r}
+library(plotly)
+
+plot_ly(data, x = ~Pendapatan_per_kapita, y = ~Angka_Harapan_Hidup, type = 'scatter', mode = 'markers', marker=list(color='blue')) %>%
+  layout(title = 'Scatter Plot Interaktif Pendapatan per Kapita vs Angka Harapan Hidup',
+         xaxis = list(title = 'Pendapatan per Kapita'),
+         yaxis = list(title = 'Angka Harapan Hidup'))
+
+```
+
+# Interpretasi
+
+  Interpretasi: Grafik interaktif ini memungkinkan pengguna untuk menjelajahi hubungan antara pendapatan per kapita dan angka harapan hidup dengan lebih mendalam. Pengguna dapat mengarahkan kursor untuk melihat detail setiap titik data. Setiap visualisasi memberikan wawasan berbeda tentang data yang ada dan membantu dalam memahami pola serta hubungan antar variabel secara lebih efektif.
+  
+## Rangkuman
+
+  Berdasarkan visualisasi data yang telah dibuat, berikut adalah rangkuman temuan dari analisis:
+  
+  1. Distribusi Angka Harapan Hidup
+    Temuan: Histogram menunjukkan bahwa sebagian besar negara memiliki angka harapan hidup yang terdistribusi di kisaran rendah, dengan puncak frekuensi pada angka harapan hidup di bawah 40 tahun.
+    Interpretasi: Ini mengindikasikan bahwa banyak negara, terutama yang berada di kawasan dengan kondisi ekonomi dan kesehatan yang kurang baik, masih menghadapi tantangan dalam meningkatkan angka harapan hidup.
+    
+  2. Hubungan Pendapatan per Kapita dan Angka Harapan Hidup
+    Temuan: Scatter plot menunjukkan adanya hubungan positif antara pendapatan per kapita dan angka harapan hidup. Negara-negara dengan pendapatan per kapita yang lebih tinggi cenderung memiliki angka harapan hidup yang lebih tinggi.
+    Interpretasi: Hal ini menegaskan pentingnya faktor ekonomi dalam menentukan kualitas hidup dan kesehatan masyarakat. Pendapatan yang lebih tinggi sering kali berhubungan dengan akses yang lebih baik terhadap layanan kesehatan dan pendidikan.
+    
+  3. Korelasi Antara Variabel
+    Temuan: Heatmap korelasi menunjukkan bahwa angka harapan hidup memiliki korelasi positif yang kuat dengan pendapatan per kapita (nilai korelasi mendekati 1) dan korelasi negatif dengan jumlah anak per wanita.
+    Interpretasi: Ini menunjukkan bahwa peningkatan pendapatan dapat berkontribusi pada peningkatan angka harapan hidup, sementara tingginya jumlah anak per wanita dapat berhubungan dengan angka harapan hidup yang lebih rendah, mungkin karena sumber daya kesehatan yang terbagi.
+    
+  4. Visualisasi Interaktif
+    Temuan: Scatter plot interaktif memungkinkan pengguna untuk menjelajahi data lebih dalam, memberikan informasi tambahan tentang setiap negara berdasarkan pendapatan per kapita dan angka harapan hidup.
+    Interpretasi: Dengan visualisasi interaktif ini, pengguna dapat mengidentifikasi outlier atau negara-negara yang tidak mengikuti tren umum, serta mengeksplorasi faktor-faktor lain yang mungkin mempengaruhi hasil.
+    
+  Kesimpulan
+    Analisis ini menunjukkan bahwa faktor ekonomi seperti pendapatan per kapita berperan signifikan dalam menentukan angka harapan hidup. Selain itu, hubungan antara jumlah anak dan angka harapan hidup juga mencerminkan tantangan yang dihadapi oleh negara-negara tertentu. Melalui visualisasi ini, kita dapat memahami kompleksitas isu kesehatan global dan pentingnya kebijakan yang mendukung peningkatan kualitas hidup masyarakat.
+
+# Referensi
